@@ -383,7 +383,6 @@ class FastCopyHashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Se
         this.size = size;
     }
 
-    @SuppressWarnings("unchecked")
     private void putForCreate(E key) {
         E[] table = this.table;
         int hash = key.hashCode();

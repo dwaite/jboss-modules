@@ -28,8 +28,7 @@ import java.lang.ref.ReferenceQueue;
  * A set of utility methods for reference types.
  */
 public final class References {
-    @SuppressWarnings({ "RawUseOfParameterizedType" })
-    private static final Reference NULL = new Reference() {
+    private static final Reference<?,?> NULL = new Reference<Object, Object>() {
         public Object get() {
             return null;
         }

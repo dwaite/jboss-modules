@@ -107,7 +107,6 @@ class IdentityHashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Se
         init(initialCapacity, loadFactor);
     }
 
-    @SuppressWarnings("unchecked")
     public IdentityHashSet(Set<? extends E> set) {
         if (set instanceof IdentityHashSet) {
             IdentityHashSet<? extends E> fast = (IdentityHashSet<? extends E>) set;
