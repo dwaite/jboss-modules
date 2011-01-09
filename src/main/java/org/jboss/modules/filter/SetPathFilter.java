@@ -25,15 +25,18 @@ package org.jboss.modules.filter;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.jboss.modules.FastCopyHashSet;
+
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 final class SetPathFilter implements PathFilter {
 
-    private final Set<String> paths;
+    private final FastCopyHashSet<String> paths;
 
     SetPathFilter(final Set<String> paths) {
-        this.paths = paths;
+        this.paths = new FastCopyHashSet<String>(paths);
     }
 
     public boolean accept(final String path) {

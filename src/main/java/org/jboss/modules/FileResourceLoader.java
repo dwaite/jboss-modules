@@ -43,6 +43,8 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import org.jboss.modules.management.ResourceLoaderInfo;
+
 /**
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -155,10 +157,12 @@ final class FileResourceLoader implements ResourceLoader {
         }
     }
 
+    @Override
     public String getRootName() {
         return rootName;
     }
 
+    @Override
     public ClassSpec getClassSpec(final String fileName) throws IOException {
         final File file = new File(root, fileName);
         if (! file.exists()) {
@@ -196,6 +200,7 @@ final class FileResourceLoader implements ResourceLoader {
         }
     }
 
+    @Override
     public PackageSpec getPackageSpec(final String name) throws IOException {
         final PackageSpec spec = new PackageSpec();
         final Manifest manifest = this.manifest;
@@ -221,6 +226,7 @@ final class FileResourceLoader implements ResourceLoader {
         return value == null ? mainAttribute == null ? null : mainAttribute.getValue(name) : value;
     }
 
+    @Override
     public String getLibrary(final String name) {
         final File file = new File(root, ARCH_NAME + File.separatorChar + name);
         return file.exists() ? file.getAbsolutePath() : null;
@@ -239,6 +245,7 @@ final class FileResourceLoader implements ResourceLoader {
         }
     }
 
+    @Override
     public Collection<String> getPaths() {
         final List<String> index = new ArrayList<String>();
         // First check for an index file
@@ -299,5 +306,10 @@ final class FileResourceLoader implements ResourceLoader {
                 buildIndex(index, file, pathBase + file.getName() + "/");
             }
         }
+    }
+
+    @Override
+    public ResourceLoaderInfo createResourceLoaderInfo() {
+        return new ResourceLoaderInfo(FileResourceLoader.class.getName(), new ArrayList<String>(getPaths()));
     }
 }

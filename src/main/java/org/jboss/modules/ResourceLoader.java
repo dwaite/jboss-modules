@@ -25,6 +25,8 @@ package org.jboss.modules;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.jboss.modules.management.ResourceLoaderInfo;
+
 /**
  * A loader for resources from a specific resource root within a module.
  *
@@ -86,4 +88,11 @@ public interface ResourceLoader {
      * @return the resource paths
      */
     Collection<String> getPaths();
+
+    /**
+     * Create a ResourceLoaderInfo object for management and reporting purposes.
+     *
+     * @return ResourceLoaderInfo object
+     */
+    ResourceLoaderInfo createResourceLoaderInfo();
 }

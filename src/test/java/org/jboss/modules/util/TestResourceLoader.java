@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ import org.jboss.modules.ClassSpec;
 import org.jboss.modules.PackageSpec;
 import org.jboss.modules.Resource;
 import org.jboss.modules.ResourceLoader;
+import org.jboss.modules.management.ResourceLoaderInfo;
 
 /**
  * A test resource loader that simple retrieves resources frm maps.  This allows tests to build
@@ -134,6 +136,11 @@ public class TestResourceLoader implements ResourceLoader {
             paths.add(current);
             current += "/";
         }
+    }
+
+    @Override
+    public ResourceLoaderInfo createResourceLoaderInfo() {
+        return new ResourceLoaderInfo(TestResourceLoader.class.getName(), new ArrayList<String>(getPaths()));
     }
 
     @Override

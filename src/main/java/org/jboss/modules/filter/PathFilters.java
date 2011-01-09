@@ -23,7 +23,6 @@
 package org.jboss.modules.filter;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -138,12 +137,32 @@ public final class PathFilters {
     }
 
     /**
+     * Attempt to quickly determine if this filter will always return true, accepting all paths
+     *
+     * @param filter the filter
+     * @return {@code true} if this filter will always return true. {@code false} indicates that we are unsure.
+     */
+    public static boolean willAcceptAll(PathFilter filter) {
+        return (filter == BooleanPathFilter.TRUE);
+    }
+
+    /**
      * Get a filter which always returns {@code false}.
      *
      * @return the reject-all filter
      */
     public static PathFilter rejectAll() {
         return BooleanPathFilter.FALSE;
+    }
+
+    /**
+     * Attempt to quickly determine if this filter will always return false, rejecting all paths.
+     *
+     * @param filter the filter
+     * @return {@code true} if this filter will always return false. {@code false} indicates that we are unsure.
+     */
+    public static boolean willRejectAll(PathFilter filter) {
+        return (filter == BooleanPathFilter.FALSE);
     }
 
     /**
@@ -154,7 +173,7 @@ public final class PathFilters {
      * @return the filter
      */
     public static PathFilter in(Set<String> paths) {
-        return new SetPathFilter(new HashSet<String>(paths));
+        return new SetPathFilter(paths);
     }
 
     private static final PathFilter defaultImportFilter;

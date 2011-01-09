@@ -718,7 +718,7 @@ public final class Module {
         for (Dependency dependency : dependencies) {
             final PathFilter exportFilter = dependency.getExportFilter();
             final PathFilter importFilter = dependency.getImportFilter();
-            if (importFilter == PathFilters.rejectAll() || exportFilter == PathFilters.rejectAll()) {
+            if (PathFilters.willRejectAll(importFilter) || PathFilters.willRejectAll(exportFilter)) {
                 // we do not export anything from this dependency
                 continue;
             }
@@ -771,7 +771,7 @@ public final class Module {
         // Iterate dependencies and get their export paths.
         for (Dependency dependency : dependencies) {
             final PathFilter importFilter = dependency.getImportFilter();
-            if (importFilter == PathFilters.rejectAll()) {
+            if (PathFilters.willRejectAll(importFilter)) {
                 // we do not import anything from this dependency
                 // kind of a silly dependency, isn't it?
                 continue;

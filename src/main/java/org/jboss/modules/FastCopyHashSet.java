@@ -46,7 +46,7 @@ import java.util.Set;
  * @author Jason T. Greene
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class FastCopyHashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable {
+public class FastCopyHashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable {
 
     /**
      * Serialization ID

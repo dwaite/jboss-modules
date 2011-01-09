@@ -38,6 +38,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
@@ -45,6 +46,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import org.jboss.modules.management.ResourceLoaderInfo;
 
 /**
  *
@@ -240,5 +243,10 @@ final class JarFileResourceLoader implements ResourceLoader {
             }
         }
         return index;
+    }
+
+    @Override
+    public ResourceLoaderInfo createResourceLoaderInfo() {
+        return new ResourceLoaderInfo(JarFileResourceLoader.class.getName(), new ArrayList<String>(getPaths()));
     }
 }

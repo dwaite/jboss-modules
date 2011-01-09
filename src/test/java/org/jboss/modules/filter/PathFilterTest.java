@@ -19,8 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
-package org.jboss.modules;
+package org.jboss.modules.filter;
 
 import org.jboss.modules.filter.MultiplePathFilterBuilder;
 import org.jboss.modules.filter.PathFilter;
@@ -32,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Test to verify the PathFilter functionality.
- * 
+ *
  * @author John E. Bailey
  */
 public class PathFilterTest {

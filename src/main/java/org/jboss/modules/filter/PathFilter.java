@@ -37,4 +37,11 @@ public interface PathFilter {
      * @return true if the path should be accepted, false if not
      */
     boolean accept(String path);
+
+    /**
+     * Create human-readable string representation of what logic the filter contains
+     *
+     * @return human-readable filter
+     */
+    String toString();
 }
