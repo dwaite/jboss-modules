@@ -54,11 +54,11 @@ public abstract class AbstractResourceLoaderTestCase extends AbstractModuleTestC
     }
 
     protected abstract ResourceLoader createLoader(final PathFilter exportFilter) throws Exception;
-    protected abstract void assertResource(final Resource resource, final String fileName);
+    protected abstract void assertResource(final URL resource, final String fileName);
 
     @Test
     public void testBasicResource() throws Exception {
-        Resource resource = loader.getResource("/test.txt");
+        URL resource = loader.getResource("/test.txt");
         assertNotNull(resource);
         assertResource(resource, "test.txt");
         resource = loader.getResource("/nested/nested.txt");
@@ -68,7 +68,7 @@ public abstract class AbstractResourceLoaderTestCase extends AbstractModuleTestC
 
     @Test
     public void testMissingResource() throws Exception {
-        Resource resource = loader.getResource("/test-bogus.txt");
+        URL resource = loader.getResource("/test-bogus.txt");
         assertNull(resource);
     }
 

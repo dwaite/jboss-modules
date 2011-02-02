@@ -22,6 +22,7 @@
 
 package org.jboss.modules;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -51,5 +52,5 @@ public interface LocalLoader {
      * @param name the resource path
      * @return the resource or resources, or an empty list if there is no local resource with this name
      */
-    List<Resource> loadResourceLocal(String name);
+    List<URL> loadResourceLocal(String name);
 }

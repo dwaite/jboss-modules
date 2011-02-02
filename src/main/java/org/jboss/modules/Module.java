@@ -225,7 +225,7 @@ public final class Module {
      * @param resourcePath the path of the resource
      * @return the resource
      */
-    public Resource getExportedResource(final String rootPath, final String resourcePath) {
+    public URL getExportedResource(final String rootPath, final String resourcePath) {
         return moduleClassLoader.loadResourceLocal(rootPath, resourcePath);
     }
 
@@ -513,17 +513,17 @@ public final class Module {
         final List<LocalLoader> loaders = paths.get(path);
         if (loaders != null) {
             for (LocalLoader loader : loaders) {
-                final List<Resource> resourceList = loader.loadResourceLocal(name);
-                for (Resource resource : resourceList) {
-                    return resource.getURL();
+                final List<URL> resourceList = loader.loadResourceLocal(name);
+                if (!resourceList.isEmpty()) {
+                    return resourceList.get(0);
                 }
             }
         }
         final LocalLoader fallbackLoader = this.fallbackLoader;
         if (fallbackLoader != null) {
-            final List<Resource> resourceList = fallbackLoader.loadResourceLocal(name);
-            for (Resource resource : resourceList) {
-                return resource.getURL();
+            final List<URL> resourceList = fallbackLoader.loadResourceLocal(name);
+            if (!resourceList.isEmpty()) {
+                return resourceList.get(0);
             }
         }
         return null;
@@ -554,18 +554,14 @@ public final class Module {
         final List<URL> list = new ArrayList<URL>();
         if (loaders != null) {
             for (LocalLoader loader : loaders) {
-                final List<Resource> resourceList = loader.loadResourceLocal(name);
-                for (Resource resource : resourceList) {
-                    list.add(resource.getURL());
-                }
+                final List<URL> resourceList = loader.loadResourceLocal(name);
+                list.addAll(resourceList);
             }
         }
         final LocalLoader fallbackLoader = this.fallbackLoader;
         if (fallbackLoader != null) {
-            final List<Resource> resourceList = fallbackLoader.loadResourceLocal(name);
-            for (Resource resource : resourceList) {
-                list.add(resource.getURL());
-            }
+            final List<URL> resourceList = fallbackLoader.loadResourceLocal(name);
+            list.addAll(resourceList);
         }
 
         return list.size() == 0 ? ConcurrentClassLoader.EMPTY_ENUMERATION : Collections.enumeration(list);

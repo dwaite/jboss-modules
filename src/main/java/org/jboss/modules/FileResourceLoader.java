@@ -232,13 +232,13 @@ final class FileResourceLoader implements ResourceLoader {
         return file.exists() ? file.getAbsolutePath() : null;
     }
 
-    public Resource getResource(final String name) {
+    public URL getResource(final String name) {
         try {
             final File file = new File(root, name);
             if (! file.exists()) {
                 return null;
             }
-            return new FileEntryResource(name, file, file.toURI().toURL());
+            return file.toURI().toURL();
         } catch (MalformedURLException e) {
             // must be invalid...?  (todo: check this out)
             return null;

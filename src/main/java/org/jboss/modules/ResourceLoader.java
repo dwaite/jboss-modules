@@ -23,6 +23,7 @@
 package org.jboss.modules;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 
 import org.jboss.modules.management.ResourceLoaderInfo;
@@ -70,7 +71,7 @@ public interface ResourceLoader {
      * @param name the resource name
      * @return the resource, or {@code null} if it is not available
      */
-    Resource getResource(String name);
+    URL getResource(String name);
 
     /**
      * Get the absolute physical filesystem path for a library with the given name.  The resultant path should be

@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -58,9 +59,14 @@ public class JarResourceLoaderTest extends AbstractResourceLoaderTestCase {
     }
 
     @Override
-    protected void assertResource(Resource resource, String fileName) {
+    protected void assertResource(URL resource, String fileName) {
         final JarEntry entry = jarFile.getJarEntry(fileName);
-        Assert.assertEquals(entry.getSize(), resource.getSize());
+	try {
+            Assert.assertEquals(entry.getSize(), resource.openConnection().getContentLength());
+        }
+        catch(IOException e) {
+            Assert.fail(e.toString());
+        }
     }
 
     private void buildJar(final File source, final File targetFile) throws IOException {

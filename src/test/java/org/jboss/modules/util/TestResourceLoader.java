@@ -26,7 +26,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.jboss.modules.util.Util.getClassBytes;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -42,7 +41,6 @@ import java.util.jar.Manifest;
 
 import org.jboss.modules.ClassSpec;
 import org.jboss.modules.PackageSpec;
-import org.jboss.modules.Resource;
 import org.jboss.modules.ResourceLoader;
 import org.jboss.modules.management.ResourceLoaderInfo;
 
@@ -54,7 +52,7 @@ import org.jboss.modules.management.ResourceLoaderInfo;
  */
 public class TestResourceLoader implements ResourceLoader {
     private final Map<String, ClassSpec> classSpecs = new HashMap<String, ClassSpec>();
-    private final Map<String, Resource> resources = new HashMap<String, Resource>();
+    private final Map<String, URL> resources = new HashMap<String, URL>();
     private final Set<String> paths = new HashSet<String>();
     private Manifest manifest;
 
@@ -96,7 +94,7 @@ public class TestResourceLoader implements ResourceLoader {
         if(manifest != null)
             return manifest;
 
-        final Resource manifestResource = getResource("META-INF/MANIFEST.MF");
+        final URL manifestResource = getResource("META-INF/MANIFEST.MF");
         if(manifestResource  == null)
             return null;
         final InputStream manifestStream = manifestResource.openStream();
@@ -114,16 +112,16 @@ public class TestResourceLoader implements ResourceLoader {
     }
 
     @Override
-    public Resource getResource(final String name) {
+    public URL getResource(final String name) {
         String resourceName = name;
         if (resourceName.startsWith("/"))
             resourceName = resourceName.substring(1);
-        final Map<String, Resource> resources = this.resources;
+        final Map<String, URL> resources = this.resources;
         return resources.get(resourceName);
     }
 
-    void addResource(final String name, final Resource resource) {
-        final Map<String, Resource> resources = this.resources;
+    void addResource(final String name, final URL resource) {
+        final Map<String, URL> resources = this.resources;
         resources.put(name, resource);
         addPaths(getPathFromResourceName(name));
     }
@@ -176,59 +174,13 @@ public class TestResourceLoader implements ResourceLoader {
         }
 
         public TestResourceLoaderBuilder addResource(final String name, final URL resourceUrl) {
-            addResource(name, new Resource() {
-                @Override
-                public String getName() {
-                    return name;
-                }
-
-                @Override
-                public URL getURL() {
-                    return resourceUrl;
-                }
-
-                @Override
-                public InputStream openStream() throws IOException {
-                    return resourceUrl.openStream();
-                }
-
-                @Override
-                public long getSize() {
-                    return 0L;
-                }
-            });
+            resourceLoader.addResource(name, resourceUrl);
             return this;
         }
 
         public TestResourceLoaderBuilder addResource(final String name, final File resource) throws MalformedURLException {
             final URL url = resource.toURI().toURL();
-            addResource(name, new Resource() {
-                @Override
-                public String getName() {
-                    return name;
-                }
-
-                @Override
-                public URL getURL() {
-                    return url;
-                }
-
-                @Override
-                public InputStream openStream() throws IOException {
-                    return new FileInputStream(resource);
-                }
-
-                @Override
-                public long getSize() {
-                    return resource.length();
-                }
-            });
-            return this;
-        }
-
-        public TestResourceLoaderBuilder addResource(final String name, final Resource resource) {
-            final TestResourceLoader resourceLoader = this.resourceLoader;
-            resourceLoader.addResource(name, resource);
+            resourceLoader.addResource(name, url);
             return this;
         }
 

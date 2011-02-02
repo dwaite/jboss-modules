@@ -75,7 +75,7 @@ public class ModuleClassLoader extends ConcurrentClassLoader {
             }
         }
 
-        public List<Resource> loadResourceLocal(final String name) {
+        public List<URL> loadResourceLocal(final String name) {
             return ModuleClassLoader.this.loadResourceLocal(name);
         }
 
@@ -259,7 +259,7 @@ public class ModuleClassLoader extends ConcurrentClassLoader {
      * @param name the resource name
      * @return the resource, or {@code null} if it was not found
      */
-    Resource loadResourceLocal(final String root, final String name) {
+    URL loadResourceLocal(final String root, final String name) {
 
         final Map<String, List<ResourceLoader>> paths = this.paths.getPaths(false);
 
@@ -286,7 +286,7 @@ public class ModuleClassLoader extends ConcurrentClassLoader {
      * @param name the resource name
      * @return the list of resources
      */
-    List<Resource> loadResourceLocal(final String name) {
+    List<URL> loadResourceLocal(final String name) {
         final Map<String, List<ResourceLoader>> paths = this.paths.getPaths(false);
 
         final String path = Module.pathOf(name);
@@ -297,14 +297,14 @@ public class ModuleClassLoader extends ConcurrentClassLoader {
             return Collections.emptyList();
         }
 
-        final List<Resource> list = new ArrayList<Resource>(loaders.size());
+        final List<URL> list = new ArrayList<URL>(loaders.size());
         for (ResourceLoader loader : loaders) {
-            final Resource resource = loader.getResource(name);
+            final URL resource = loader.getResource(name);
             if (resource != null) {
                 list.add(resource);
             }
         }
-        return list.isEmpty() ? Collections.<Resource>emptyList() : list;
+        return list.isEmpty() ? Collections.<URL>emptyList() : list;
     }
 
     /**

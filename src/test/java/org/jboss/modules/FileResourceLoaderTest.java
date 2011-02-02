@@ -26,6 +26,8 @@ import org.jboss.modules.filter.PathFilter;
 import org.junit.Assert;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Test the functionality of the FileResourceLoader
@@ -44,10 +46,14 @@ public class FileResourceLoaderTest extends AbstractResourceLoaderTestCase {
     }
 
     @Override
-    protected void assertResource(Resource resource, String fileName) {
+    protected void assertResource(URL resource, String fileName) {
         final File resourceFile = getExpectedFile(fileName);
-
-        Assert.assertEquals(resourceFile.length(), resource.getSize());
+        try {
+            Assert.assertEquals(resourceFile.length(), resource.openConnection().getContentLength());
+        }
+        catch (IOException e) {
+            Assert.fail(e.toString());
+        }
     }
 
     public void testGetClassSpec() throws Exception {
