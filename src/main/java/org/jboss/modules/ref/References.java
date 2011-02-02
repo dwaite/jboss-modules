@@ -73,9 +73,8 @@ public final class References {
             }
         }
 
-        @SuppressWarnings({ "unchecked" })
         private static <T, A> void reap(final Reapable<T, A> reapable) {
-            reapable.getReaper().reap((Reference<T, A>) reapable);
+            reapable.getReaper().reap(reapable);
         }
     }
 

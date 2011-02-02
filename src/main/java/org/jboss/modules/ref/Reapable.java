@@ -32,7 +32,7 @@ package org.jboss.modules.ref;
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-interface Reapable<T, A> {
+interface Reapable<T, A> extends Reference<T, A> {
 
     /**
      * Get the associated reaper.
